@@ -53,8 +53,13 @@ def autoCreateCapture(src,timestamps=None,timebase = None):
      - a path to video file
      - patter of name matches
      - a device index
+     - a port listen gstreamer stream
      - None
     '''
+
+    logger.info("--------autoCreateCapture::")
+    logger.info(src)
+
     # video source
     if type(src) is str and os.path.isfile(src):
         return File_Capture(src,timestamps=timestamps)
@@ -73,6 +78,12 @@ def autoCreateCapture(src,timestamps=None,timebase = None):
             else:
                 logger.warning("Camera selected by id matches is found but already in use")
                 src = None
+
+    # live src - select form pattern
+    elif type(src) in (list,tuple) and src[0] == "Gstreamer":
+        logger.info("gst src found")
+        uid = "Gstreamer"
+        return Camera_Capture(src,timebase=timebase)
 
     # live src - select form pattern
     elif type(src) in (list,tuple):
@@ -99,5 +110,3 @@ def uid_from_name(pattern):
                 else:
                     logger.warning("Camera '%s' matches the pattern but is already in use"%device['name'])
     logger.error('No accessible device found that matched %s'%pattern)
-
-

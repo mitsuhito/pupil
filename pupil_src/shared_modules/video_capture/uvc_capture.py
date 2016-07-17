@@ -14,6 +14,7 @@ from uvc import device_list,is_accessible
 assert uvc.__version__ >= '0.7'
 
 from fake_capture import Fake_Capture
+from gstreamer_capture import Gstreamer_Capture
 
 from ctypes import c_double
 from pyglui import ui
@@ -85,6 +86,9 @@ class Camera_Capture(object):
 
         if uid is None:
             self.capture = Fake_Capture()
+        elif uid[0] == 'Gstreamer':
+            self.gst_port = uid[2]
+            self.capture = Gstreamer_Capture(self.gst_port)
         else:
             self.capture = uvc.Capture(uid)
 
@@ -325,5 +329,3 @@ class Camera_Capture(object):
         self.deinit_gui()
         # self.capture.close()
         del self.capture
-
-

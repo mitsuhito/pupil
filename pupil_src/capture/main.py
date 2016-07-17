@@ -67,8 +67,12 @@ else:
 
 # To assign camera by name: put string(s) in list
 world_src = ["Pupil Cam1 ID2","Logitech Camera","(046d:081d)","C510","B525", "C525","C615","C920","C930e"]
-eye0_src = ["Pupil Cam1 ID0","HD-6000","Integrated Camera","HD USB Camera","USB 2.0 Camera"]
 eye1_src = ["Pupil Cam1 ID1","HD-6000","Integrated Camera"]
+eye0_src = ["Gstreamer", "ID0", 9000]
+#eye1_src = ["Gstreamer", "ID1", 9001]
+eye2_src = ["Gstreamer", "ID2", 9002]
+eye3_src = ["Gstreamer", "ID3", 9003]
+
 
 # to use a pre-recorded video.
 # Use a string to specify the path to your video file as demonstrated below
@@ -76,7 +80,12 @@ eye1_src = ["Pupil Cam1 ID1","HD-6000","Integrated Camera"]
 # eye0_src = '/Users/mkassner/Downloads/eye0.mkv'
 # eye1_src =  '/Users/mkassner/Downloads/eye.avi'
 
-video_sources = {'world':world_src,'eye0':eye0_src,'eye1':eye1_src}
+#world_src = '/Users/luigi/Downloads/ParallelEyesMaster_2015-08-23-11-14-28-385.mp4'
+#eye1_src =  '/Users/luigi/Downloads/01_calib/dummy_eye_3_2015-08-23-11-12-24-363.mp4'
+
+
+video_sources = {'world':world_src,'eye0':eye0_src,'eye1':eye1_src,'eye2':eye2_src,'eye3':eye3_src}
+#video_sources = {'world0':world0_src,'world1':world1_src, 'eye0':eye0_src,'eye1':eye1_src}
 
 
 def launcher():

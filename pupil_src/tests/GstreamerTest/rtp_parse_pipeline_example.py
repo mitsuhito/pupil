@@ -25,6 +25,7 @@ from gi.repository import GObject, Gst, Gtk
 import cv2
 import numpy
 
+import datetime
 
 GObject.threads_init()
 Gst.init(None)
@@ -42,8 +43,7 @@ class RTPStream:
         self.window.add(self.drawingarea)
 
         # Create GStreamer pipeline
-        self.pipeline = Gst.Pipeline()
-
+        #self.pipeline = Gst.Pipeline()
         # udpsrc port=5000 ! application/x-rtp,clock-rate=90000,payload=96 ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! osxvideosink
         #self.pipeline = Gst.parse_launch ("rpicamsrc name=src ! video/x-h264,width=320,height=240 ! h264parse ! mp4mux ! filesink name=s")
         self.pipeline = Gst.parse_launch("udpsrc port=5000 name=udp_src caps=application/x-rtp,clock-rate=90000,payload=96 ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! appsink name=app_sink emit-signals=true drop=true sync=false ")
@@ -100,23 +100,26 @@ class RTPStream:
         # #self.sink.link(self.convert)
 
     def new_sample_cb(self, appsink):
-        print("new_sample_cb::", appsink)
+        #print("new_sample_cb::", appsink)
         sample = appsink.emit('pull-sample')
         buf = sample.get_buffer()
         caps = sample.get_caps()
-        print(caps.get_structure(0).get_value('format'))
-        print(caps.get_structure(0).get_value('height'))
-        print(caps.get_structure(0).get_value('width'))
-        print(buf.get_size())
-
+        # print(caps.get_structure(0).get_value('format'))
+        # print(caps.get_structure(0).get_value('height'))
+        # print(caps.get_structure(0).get_value('width'))
+        # print(buf.get_size())
 
         arr = numpy.ndarray( (caps.get_structure(0).get_value('height'), caps.get_structure(0).get_value('width'), 3),
         buffer=buf.extract_dup(0, buf.get_size()),
         dtype=numpy.uint8)
 
+        now = datetime.datetime.now()
+        ts_str = now.strftime("%Y %m %d %H:%M:%S.") + "%04d" % (now.microsecond // 1000)
+        cv2.putText(arr, ts_str, (10,20), cv2.FONT_HERSHEY_PLAIN, 1, (0,0,0))
+
         cv2.imshow('frame',arr)
-        #self.out.write(arr)
-        self.videoWriter.write(arr)
+        #self.videoWriter.write(arr)
+
         return Gst.FlowReturn.OK
 
     def run(self):
@@ -127,7 +130,7 @@ class RTPStream:
         #        int(cameraCapture.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT)))
         size = (320, 240)
         #self.videoWriter = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('I', '4', '2', '0'), fps, size)
-        self.videoWriter = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), fps, size)
+        #self.videoWriter = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), fps, size)
 
         # You need to get the XID after window.show_all(). You shouldn't get it
         # in the on_sync_message() handler because threading issues will cause
