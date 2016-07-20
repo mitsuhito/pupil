@@ -15,6 +15,7 @@ assert uvc.__version__ >= '0.7'
 
 from fake_capture import Fake_Capture
 from gstreamer_capture import Gstreamer_Capture
+from ofx_publish_screen_subscriber import ofxPublishScreen_Capture
 
 from ctypes import c_double
 from pyglui import ui
@@ -89,6 +90,10 @@ class Camera_Capture(object):
         elif uid[0] == 'Gstreamer':
             self.gst_port = uid[2]
             self.capture = Gstreamer_Capture(self.gst_port)
+        elif uid[0] == 'ofxPublishScreen':
+            self.publisher_ip = uid[2]
+            self.publisher_port = uid[3]
+            self.capture = ofxPublishScreen_Capture(self.publisher_ip, self.publisher_port)
         else:
             self.capture = uvc.Capture(uid)
 

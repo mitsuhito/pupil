@@ -66,9 +66,11 @@ else:
 
 
 # To assign camera by name: put string(s) in list
-world_src = ["Pupil Cam1 ID2","Logitech Camera","(046d:081d)","C510","B525", "C525","C615","C920","C930e"]
-eye1_src = ["Pupil Cam1 ID1","HD-6000","Integrated Camera"]
+#world_src = ["Pupil Cam1 ID2","Logitech Camera","(046d:081d)","C510","B525", "C525","C615","C920","C930e"]
+world_src = ["ofxPublishScreen", "ID0", "192.168.20.204", 20000]
+
 eye0_src = ["Gstreamer", "ID0", 9000]
+eye1_src = ["Pupil Cam1 ID1","HD-6000","Integrated Camera"]
 #eye1_src = ["Gstreamer", "ID1", 9001]
 eye2_src = ["Gstreamer", "ID2", 9002]
 eye3_src = ["Gstreamer", "ID3", 9003]

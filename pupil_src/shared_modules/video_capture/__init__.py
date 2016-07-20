@@ -85,6 +85,10 @@ def autoCreateCapture(src,timestamps=None,timebase = None):
         uid = "Gstreamer"
         return Camera_Capture(src,timebase=timebase)
 
+    elif type(src) in (list,tuple) and src[0] == "ofxPublishScreen":
+        logger.info("publish screen src found")
+        return Camera_Capture(src,timebase=timebase)
+
     # live src - select form pattern
     elif type(src) in (list,tuple):
         src = uid_from_name(src)
