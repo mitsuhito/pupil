@@ -135,7 +135,7 @@ class Gstreamer_Capture(object):
         # embed time stamp string
         now = datetime.datetime.now()
         ts_str = now.strftime("%Y %m %d %H:%M:%S.") + "%04d" % (now.microsecond // 1000)
-        cv2.putText(arr, ts_str, (10,20), cv2.FONT_HERSHEY_PLAIN, 1, (0,0,0))
+        #cv2.putText(arr, ts_str, (10,20), cv2.FONT_HERSHEY_PLAIN, 1, (0,0,0))
 
         # for debug
         #cv2.imshow('frame',arr)
